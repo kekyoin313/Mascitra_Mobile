@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:simpeg_mascitra_mobile/pages/kegiatanPage/kegiatan_harian_page.dart';
+import 'package:provider/provider.dart';
+// import 'package:simpeg_mascitra_mobile/pages/kegiatanPage/kegiatan_harian_page.dart';
 import 'package:simpeg_mascitra_mobile/pages/starterPage/welcomePage.dart';
+import 'package:simpeg_mascitra_mobile/viewmodels/auth_view_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AuthViewModel())
+  ],
+  child: const MyApp()
+  )
+  );
+  
 }
 
 class MyApp extends StatelessWidget {

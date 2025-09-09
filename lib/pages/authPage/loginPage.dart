@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simpeg_mascitra_mobile/pages/homePage/homePage.dart';
+import 'package:simpeg_mascitra_mobile/viewmodels/auth_view_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -48,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
     final formContainerHeight = isKeyboardVisible
         ? screenHeight - topImageHeight
         : screenHeight * 0.78;
+
+    final authVM = Provider.of<AuthViewModel>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -163,40 +167,75 @@ class _LoginPageState extends State<LoginPage> {
                                         MediaQuery.of(context).size.width * 0.6,
                                     height: 56,
                                     child: ElevatedButton(
-                                      onPressed: _isLoading
+                                      onPressed: authVM.isLoading
                                           ? null
-                                          : _handleLogin,
+                                          : () async {
+                                              await authVM.login(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              );
+
+                                              if (authVM.user != null) {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const HomePage(),
+                                                  ),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      authVM.errorMessage ??
+                                                          'Login gagal',
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                      child: authVM.isLoading
+                                          ? const CircularProgressIndicator()
+                                          : const Text('Masuk'),
+                                      // ? null
+                                      // : _handleLogin,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFFC64304),
+                                        backgroundColor: const Color(
+                                          0xFFC64304,
+                                        ),
                                         foregroundColor: Colors.white,
                                         elevation: 3,
-                                        shadowColor: const Color(0xFFC64304).withOpacity(0.3),
+                                        shadowColor: const Color(
+                                          0xFFC64304,
+                                        ).withOpacity(0.3),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             50,
                                           ),
                                         ),
                                       ),
-                                      child: _isLoading
-                                          ? const SizedBox(
-                                              width: 24,
-                                              height: 24,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                      Color
-                                                    >(Colors.white),
-                                              ),
-                                            )
-                                          : const Text(
-                                              'Masuk',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Poppins',
-                                              ),
-                                            ),
+                                      // child: _isLoading
+                                      //     ? const SizedBox(
+                                      //         width: 24,
+                                      //         height: 24,
+                                      //         child: CircularProgressIndicator(
+                                      //           strokeWidth: 2,
+                                      //           valueColor:
+                                      //               AlwaysStoppedAnimation<
+                                      //                 Color
+                                      //               >(Colors.white),
+                                      //         ),
+                                      //       )
+                                      //     : const Text(
+                                      //         'Masuk',
+                                      //         style: TextStyle(
+                                      //           fontSize: 16,
+                                      //           fontWeight: FontWeight.w600,
+                                      //           fontFamily: 'Poppins',
+                                      //         ),
+                                      //       ),
                                     ),
                                   ),
                                 ),
