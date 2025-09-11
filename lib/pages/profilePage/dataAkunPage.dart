@@ -74,7 +74,7 @@ class _DataAkunPageState extends State<DataAkunPage> {
                     _buildDataItem(
                       icon: Icons.email_outlined,
                       label: 'Email',
-                      value: 'fairuz@gmail.com',
+                      value: 'narto@gmail.com',
                     ),
                     _buildDivider(),
                     _buildDataItem(
@@ -86,7 +86,7 @@ class _DataAkunPageState extends State<DataAkunPage> {
                     _buildDataItem(
                       icon: Icons.person_outline,
                       label: 'Nama',
-                      value: 'Fairuz Zaki',
+                      value: 'narto123',
                     ),
                     _buildDivider(),
                     _buildDataItem(

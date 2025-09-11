@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(),
                 // Name
                 const Text(
-                  'Fairuz Zaki',
+                  'Mas Narto',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
